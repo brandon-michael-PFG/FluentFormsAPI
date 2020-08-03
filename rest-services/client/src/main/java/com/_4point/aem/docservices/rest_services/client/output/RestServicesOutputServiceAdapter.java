@@ -32,8 +32,12 @@ import com._4point.aem.fluentforms.api.output.PrintedOutputOptions;
 import com._4point.aem.fluentforms.impl.SimpleDocumentFactoryImpl;
 import com._4point.aem.fluentforms.impl.output.TraditionalOutputService;
 import com.adobe.fd.output.api.AcrobatVersion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestServicesOutputServiceAdapter extends RestServicesServiceAdapter implements TraditionalOutputService {
+
+	private final Logger log = LoggerFactory.getLogger(RestServicesOutputServiceAdapter.class);
 
 	private static final String GENERATE_PDF_OUTPUT_PATH = "/services/OutputService/GeneratePdfOutput";
 
@@ -121,6 +125,7 @@ public class RestServicesOutputServiceAdapter extends RestServicesServiceAdapter
 								})
 								;
 
+			log.info("Transaction Type - Documents Processed : Output Service : generatePDFOutput");
 			Response result = postToServer(renderPdfTarget, multipart, APPLICATION_PDF);
 			
 			StatusType resultStatus = result.getStatusInfo();

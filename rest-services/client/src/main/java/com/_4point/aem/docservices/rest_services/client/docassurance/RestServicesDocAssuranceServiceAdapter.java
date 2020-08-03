@@ -41,8 +41,12 @@ import com.adobe.fd.signatures.client.types.VerificationTime;
 import com.adobe.fd.signatures.pdf.inputs.UnlockOptions;
 import com.adobe.fd.signatures.pdf.inputs.ValidationPreferences;
 import com.adobe.fd.signatures.pki.client.types.common.RevocationCheckStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestServicesDocAssuranceServiceAdapter extends RestServicesServiceAdapter implements TraditionalDocAssuranceService {
+
+	private final Logger log = LoggerFactory.getLogger(RestServicesDocAssuranceServiceAdapter.class);
 
 	private static final String SECURE_DOCUMENT_PATH = "/services/DocAssuranceService/SecureDocument";
 
@@ -130,6 +134,7 @@ public class RestServicesDocAssuranceServiceAdapter extends RestServicesServiceA
 				// TODO Auto-generated method stub
 			}
 
+			log.info("Transaction Type - Documents Processed : Doc Assurance Service : secureDocument");
 			Response result = postToServer(secureDocTarget, multipart, APPLICATION_PDF);
 			
 			StatusType resultStatus = result.getStatusInfo();

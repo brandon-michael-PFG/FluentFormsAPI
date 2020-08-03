@@ -24,6 +24,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -45,6 +47,8 @@ import com._4point.aem.fluentforms.impl.assembler.TraditionalDocAssemblerService
 
 public class RestServicesDocAssemblerServiceAdapter extends RestServicesServiceAdapter
 implements TraditionalDocAssemblerService {
+
+	private final Logger log = LoggerFactory.getLogger(RestServicesDocAssemblerServiceAdapter.class);
 
 	private static final String ASSEMBLE_DOCUMENT_PATH = "/services/AssemblerService/AssembleDocuments";
 	private static final String DATA_PARAM_NAME = "ddx";
@@ -105,6 +109,7 @@ implements TraditionalDocAssemblerService {
 					.transform((t) -> defaultStyle == null ? t : t.field(DEFAULT_STYLE, defaultStyle.toString()));
 			}
 
+			log.info("Transaction Type - Documents Processed : Assembler Service : invoke");
 			Response result = postToServer(assembleDocTarget, multipart, MediaType.APPLICATION_XML_TYPE);
 			StatusType resultStatus = result.getStatusInfo();
 			if (!Family.SUCCESSFUL.equals(resultStatus.getFamily())) {

@@ -34,8 +34,12 @@ import com.adobe.fd.forms.api.AcrobatVersion;
 import com.adobe.fd.forms.api.CacheStrategy;
 import com.adobe.fd.forms.api.DataFormat;
 import com.adobe.fd.forms.api.RenderAtClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestServicesFormsServiceAdapter extends RestServicesServiceAdapter implements TraditionalFormsService {
+
+	private final Logger log = LoggerFactory.getLogger(RestServicesFormsServiceAdapter.class);
 
 	private static final String IMPORT_DATA_PATH = "/services/FormsService/ImportData";
 	private static final String RENDER_PDF_FORM_PATH = "/services/FormsService/RenderPdfForm";
@@ -73,7 +77,9 @@ public class RestServicesFormsServiceAdapter extends RestServicesServiceAdapter 
 		try (final FormDataMultiPart multipart = new FormDataMultiPart()) {
 			multipart.field("pdforxdp", pdfOrXdp.getInputStream(), APPLICATION_PDF)
 			 .field("dataformat", DataFormat.XmlData.name());
-			
+
+
+		log.info("Transaction Type - Documents Processed : Forms Service : exportData");
 		Response result = postToServer(exportDataTarget, multipart, MediaType.APPLICATION_XML_TYPE);//xml
 		StatusType resultStatus = result.getStatusInfo();
 		
@@ -122,6 +128,7 @@ public class RestServicesFormsServiceAdapter extends RestServicesServiceAdapter 
 			multipart.field(DATA_PARAM, data.getInputStream(), MediaType.APPLICATION_XML_TYPE)
 					 .field(PDF_PARAM, pdf.getInputStream(), APPLICATION_PDF);
 
+			log.info("Transaction Type - Not Billable : Forms Service : importData");
 			Response result = postToServer(importDataTarget, multipart, APPLICATION_PDF);
 			
 			StatusType resultStatus = result.getStatusInfo();
@@ -210,6 +217,7 @@ public class RestServicesFormsServiceAdapter extends RestServicesServiceAdapter 
 								})
 								;
 
+			log.info("Transaction Type - Documents Processed : Forms Service : renderPDFForm");
 			Response result = postToServer(renderPdfTarget, multipart, APPLICATION_PDF);
 			
 			StatusType resultStatus = result.getStatusInfo();
